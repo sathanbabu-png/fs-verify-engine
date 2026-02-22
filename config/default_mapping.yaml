@@ -1,0 +1,804 @@
+# ============================================================================
+# Financial Statement Field Mapping Configuration
+# ============================================================================
+# This file defines how input field names (from Excel, CSV, JSON) map to
+# the engine's internal schema. Each internal field has a list of accepted
+# aliases. Matching is case-insensitive and ignores underscores/hyphens/spaces.
+#
+# To customize: copy this file, add your model's specific labels as aliases,
+# and pass the config path to the parser:
+#   python main.py model.xlsx --mapping my_mapping.yaml
+#
+# Matching priority:
+#   1. Exact match (after normalization)
+#   2. Alias match
+#   3. Fuzzy match (configurable threshold, default 85%)
+# ============================================================================
+
+settings:
+  # Fuzzy matching threshold (0-100). Set to 0 to disable fuzzy matching.
+  fuzzy_threshold: 85
+  # Whether to treat the first row/column as headers
+  header_row: true
+  # How to handle unmapped fields: "ignore", "warn", "error"
+  unmapped_fields: warn
+  # Normalize signs: some models use positive values for expenses/outflows
+  # Set to true to auto-detect and flip signs based on context
+  auto_sign_normalization: true
+
+# ============================================================================
+# Income Statement Mappings
+# ============================================================================
+income_statement:
+  revenue:
+    aliases:
+      - revenue
+      - total revenue
+      - net revenue
+      - sales
+      - total sales
+      - net sales
+      - turnover
+      - top line
+      - total net revenue
+      - revenue from operations
+
+  cogs:
+    aliases:
+      - cogs
+      - cost of goods sold
+      - cost of revenue
+      - cost of sales
+      - cos
+      - direct costs
+      - cost of products sold
+      - total cost of revenue
+      - cost of goods and services
+
+  gross_profit:
+    aliases:
+      - gross profit
+      - gross margin
+      - gross income
+      - total gross profit
+
+  sga:
+    aliases:
+      - sga
+      - sg&a
+      - selling general and administrative
+      - selling general & administrative
+      - selling general admin
+      - general and administrative
+      - general & administrative
+      - g&a
+      - operating expenses sga
+      - sg and a
+      - employee benefit expenses
+      - employee cost
+      - staff costs
+      - personnel expenses
+
+  rd:
+    aliases:
+      - rd
+      - r&d
+      - research and development
+      - research & development
+      - research development
+      - r and d
+      - product development
+      - technology and development
+
+  depreciation:
+    aliases:
+      - depreciation
+      - depreciation expense
+      - depr
+      - dep
+      - depreciation & amortisation
+      - depreciation and amortisation
+
+  amortization:
+    aliases:
+      - amortization
+      - amortization expense
+      - amort
+      - amortization of intangibles
+
+  other_opex:
+    aliases:
+      - other opex
+      - other operating expenses
+      - other operating costs
+      - other op expenses
+      - restructuring charges
+      - other charges
+
+  total_opex:
+    aliases:
+      - total opex
+      - total operating expenses
+      - total operating costs
+      - operating expenses
+      - opex
+
+  ebit:
+    aliases:
+      - ebit
+      - operating income
+      - operating profit
+      - income from operations
+      - operating earnings
+      - op income
+
+  interest_expense:
+    aliases:
+      - interest expense
+      - interest cost
+      - finance costs
+      - finance cost
+      - financing costs
+      - interest and debt expense
+      - borrowing costs
+      - int expense
+
+  interest_income:
+    aliases:
+      - interest income
+      - interest earned
+      - finance income
+      - int income
+
+  other_income_expense:
+    aliases:
+      - other income expense
+      - other income (expense)
+      - other non operating income
+      - non operating income expense
+      - other income net
+      - other income and expense
+      - gain loss on investments
+      - other net
+      - non operating items
+      - other income
+
+  ebt:
+    aliases:
+      - ebt
+      - pretax income
+      - pre tax income
+      - income before taxes
+      - income before tax
+      - earnings before tax
+      - profit before tax
+      - pbt
+      - income before income taxes
+      - income before provision for taxes
+      - profit before taxation
+
+  tax_expense:
+    aliases:
+      - tax expense
+      - income tax expense
+      - income tax
+      - income taxes
+      - provision for income taxes
+      - tax provision
+      - current and deferred taxes
+      - tax
+      - taxation
+
+  net_income:
+    aliases:
+      - net income
+      - net profit
+      - net earnings
+      - net income loss
+      - profit after tax
+      - pat
+      - net income attributable
+      - bottom line
+      - income after taxes
+      - net income from continuing operations
+      - profit after tax pat
+      - net profit after tax
+
+  ebitda:
+    aliases:
+      - ebitda
+      - adjusted ebitda
+      - operating ebitda
+
+  effective_tax_rate:
+    aliases:
+      - effective tax rate
+      - etr
+      - tax rate
+
+  shares_outstanding_basic:
+    aliases:
+      - shares outstanding basic
+      - basic shares outstanding
+      - basic shares
+      - weighted average shares basic
+      - basic weighted avg shares
+
+  shares_outstanding_diluted:
+    aliases:
+      - shares outstanding diluted
+      - diluted shares outstanding
+      - diluted shares
+      - weighted average shares diluted
+      - diluted weighted avg shares
+
+  eps_basic:
+    aliases:
+      - eps basic
+      - basic eps
+      - basic earnings per share
+      - earnings per share basic
+
+  eps_diluted:
+    aliases:
+      - eps diluted
+      - diluted eps
+      - diluted earnings per share
+      - earnings per share diluted
+
+# ============================================================================
+# Balance Sheet Mappings
+# ============================================================================
+balance_sheet:
+  cash:
+    aliases:
+      - cash
+      - cash and equivalents
+      - cash and cash equivalents
+      - cash & cash equivalents
+      - cash equivalents
+      - cash & equivalents
+      - c&ce
+      - cce
+      - total cash
+      - cash & bank balances
+      - cash and bank balances
+
+  short_term_investments:
+    aliases:
+      - short term investments
+      - st investments
+      - marketable securities
+      - current investments
+      - trading securities
+
+  accounts_receivable:
+    aliases:
+      - accounts receivable
+      - ar
+      - trade receivables
+      - receivables
+      - net receivables
+      - trade accounts receivable
+      - accounts receivable net
+      - sundry debtors
+
+  inventory:
+    aliases:
+      - inventory
+      - inventories
+      - total inventory
+      - merchandise inventory
+      - net inventory
+
+  prepaid_expenses:
+    aliases:
+      - prepaid expenses
+      - prepaids
+      - prepaid assets
+      - prepaid and other current assets
+
+  other_current_assets:
+    aliases:
+      - other current assets
+      - other ca
+      - miscellaneous current assets
+
+  total_current_assets:
+    aliases:
+      - total current assets
+      - current assets
+      - total ca
+
+  ppe_gross:
+    aliases:
+      - ppe gross
+      - gross ppe
+      - property plant equipment gross
+      - property plant and equipment gross
+      - gross property plant and equipment
+      - pp&e gross
+      - fixed assets gross
+
+  accumulated_depreciation:
+    aliases:
+      - accumulated depreciation
+      - accum depreciation
+      - acc depr
+      - accumulated dep
+      - less accumulated depreciation
+      - accumulated depreciation and amortization
+
+  ppe_net:
+    aliases:
+      - ppe net
+      - net ppe
+      - property plant equipment net
+      - property plant and equipment net
+      - net property plant and equipment
+      - pp&e net
+      - pp&e
+      - ppe
+      - fixed assets
+      - fixed assets net
+      - net fixed assets
+      - property and equipment net
+
+  goodwill:
+    aliases:
+      - goodwill
+      - goodwill net
+
+  intangible_assets:
+    aliases:
+      - intangible assets
+      - intangibles
+      - net intangible assets
+      - intangible assets net
+      - other intangibles
+
+  other_non_current_assets:
+    aliases:
+      - other non current assets
+      - other noncurrent assets
+      - other lt assets
+      - other long term assets
+      - other assets
+
+  total_non_current_assets:
+    aliases:
+      - total non current assets
+      - total noncurrent assets
+      - non current assets
+      - noncurrent assets
+      - long term assets
+      - total nca
+
+  total_assets:
+    aliases:
+      - total assets
+      - assets total
+      - ta
+
+  accounts_payable:
+    aliases:
+      - accounts payable
+      - ap
+      - trade payables
+      - payables
+      - trade accounts payable
+      - sundry creditors
+
+  accrued_liabilities:
+    aliases:
+      - accrued liabilities
+      - accrued expenses
+      - accruals
+      - accrued and other liabilities
+      - accrued expenses and other
+
+  short_term_debt:
+    aliases:
+      - short term debt
+      - st debt
+      - short term borrowings
+      - current borrowings
+      - notes payable
+      - bank borrowings current
+
+  current_portion_ltd:
+    aliases:
+      - current portion ltd
+      - current portion of long term debt
+      - current maturities
+      - current maturities of long term debt
+      - cpltd
+      - current portion of lt debt
+
+  other_current_liabilities:
+    aliases:
+      - other current liabilities
+      - other cl
+      - miscellaneous current liabilities
+      - other current
+
+  total_current_liabilities:
+    aliases:
+      - total current liabilities
+      - current liabilities
+      - total cl
+
+  long_term_debt:
+    aliases:
+      - long term debt
+      - lt debt
+      - long term borrowings
+      - non current debt
+      - senior notes
+      - bonds payable
+      - long term debt net of current portion
+      - total long term debt
+      - borrowings
+
+  deferred_tax_liability:
+    aliases:
+      - deferred tax liability
+      - dtl
+      - deferred income taxes
+      - deferred tax liabilities
+      - non current deferred taxes
+
+  other_non_current_liabilities:
+    aliases:
+      - other non current liabilities
+      - other noncurrent liabilities
+      - other lt liabilities
+      - other long term liabilities
+
+  total_non_current_liabilities:
+    aliases:
+      - total non current liabilities
+      - total noncurrent liabilities
+      - non current liabilities
+      - noncurrent liabilities
+      - long term liabilities
+      - total ncl
+
+  total_liabilities:
+    aliases:
+      - total liabilities
+      - liabilities total
+      - tl
+
+  common_stock:
+    aliases:
+      - common stock
+      - common shares
+      - share capital
+      - capital stock
+      - common stock par value
+      - equity share capital
+
+  additional_paid_in_capital:
+    aliases:
+      - additional paid in capital
+      - apic
+      - paid in capital
+      - share premium
+      - capital surplus
+      - additional paid in capital in excess of par
+
+  retained_earnings:
+    aliases:
+      - retained earnings
+      - re
+      - accumulated earnings
+      - retained profit
+      - accumulated deficit
+      - retained earnings accumulated deficit
+      - reserves & surplus
+      - reserves and surplus
+      - reserves surplus
+
+  treasury_stock:
+    aliases:
+      - treasury stock
+      - treasury shares
+      - own shares
+      - less treasury stock
+      - treasury stock at cost
+
+  accumulated_other_comprehensive_income:
+    aliases:
+      - accumulated other comprehensive income
+      - aoci
+      - other comprehensive income
+      - accumulated other comprehensive income loss
+      - aoci loss
+
+  total_equity:
+    aliases:
+      - total equity
+      - total stockholders equity
+      - total shareholders equity
+      - stockholders equity
+      - shareholders equity
+      - shareholders funds
+      - total equity attributable
+      - book value
+
+  total_liabilities_and_equity:
+    aliases:
+      - total liabilities and equity
+      - total liabilities and stockholders equity
+      - total liabilities and shareholders equity
+      - total liabilities & stockholders equity
+      - total liabilities & shareholders equity
+      - total l and e
+      - total liabilities & equity
+      - total liabilities shareholders equity
+      - total liabilities stockholders equity
+      - total equity & liabilities
+      - total equity and liabilities
+
+# ============================================================================
+# Cash Flow Statement Mappings
+# ============================================================================
+cash_flow:
+  net_income:
+    aliases:
+      - net income
+      - net profit
+      - net earnings
+      - net income loss
+      - profit after tax
+      - net profit after tax
+      - pat
+
+  depreciation_amortization:
+    aliases:
+      - depreciation amortization
+      - depreciation and amortization
+      - depreciation & amortization
+      - d&a
+      - d and a
+      - da
+      - dep and amort
+      - total depreciation and amortization
+      - depreciation & amortisation
+      - depreciation and amortisation
+
+  stock_based_compensation:
+    aliases:
+      - stock based compensation
+      - sbc
+      - share based compensation
+      - equity compensation
+      - stock compensation expense
+      - share based payment expense
+
+  deferred_taxes:
+    aliases:
+      - deferred taxes
+      - deferred income taxes
+      - deferred tax expense
+      - deferred tax benefit
+
+  change_in_receivables:
+    aliases:
+      - change in receivables
+      - change in accounts receivable
+      - decrease increase in receivables
+      - increase decrease in receivables
+      - delta ar
+      - accounts receivable change
+      - decrease in receivables
+      - increase in receivables
+      - decrease increase in trade receivables
+
+  change_in_inventory:
+    aliases:
+      - change in inventory
+      - change in inventories
+      - decrease increase in inventory
+      - increase decrease in inventories
+      - delta inventory
+      - inventory change
+
+  change_in_payables:
+    aliases:
+      - change in payables
+      - change in accounts payable
+      - increase decrease in payables
+      - increase decrease in accounts payable
+      - delta ap
+      - accounts payable change
+      - increase in payables
+      - decrease in payables
+      - increase decrease in trade payables
+
+  change_in_other_working_capital:
+    aliases:
+      - change in other working capital
+      - other working capital changes
+      - changes in other operating assets and liabilities
+      - other changes in operating activities
+      - other working capital
+      - total working capital changes
+      - increase decrease in other cl
+      - increase decrease in other current liabilities
+      - decrease increase in other current assets
+
+  other_operating:
+    aliases:
+      - other operating
+      - other operating activities
+      - other non cash items
+      - other adjustments
+      - other operating adjustments
+
+  cash_from_operations:
+    aliases:
+      - cash from operations
+      - cfo
+      - operating cash flow
+      - net cash from operating activities
+      - net cash provided by operating activities
+      - cash flow from operations
+      - cash generated from operations
+      - total cash from operations
+
+  capex:
+    aliases:
+      - capex
+      - capital expenditures
+      - capital expenditure
+      - purchases of property plant and equipment
+      - purchase of ppe
+      - additions to property and equipment
+      - purchases of property and equipment
+      - cap ex
+
+  acquisitions:
+    aliases:
+      - acquisitions
+      - acquisitions net of cash
+      - business acquisitions
+      - acquisition of businesses
+      - purchase of businesses
+
+  purchase_of_investments:
+    aliases:
+      - purchase of investments
+      - purchases of investments
+      - purchase of marketable securities
+      - investment purchases
+
+  sale_of_investments:
+    aliases:
+      - sale of investments
+      - sales of investments
+      - proceeds from investments
+      - maturities and sales of investments
+      - sale of marketable securities
+
+  other_investing:
+    aliases:
+      - other investing
+      - other investing activities
+      - other investment activities
+
+  cash_from_investing:
+    aliases:
+      - cash from investing
+      - cfi
+      - investing cash flow
+      - net cash from investing activities
+      - net cash used in investing activities
+      - cash flow from investing
+      - total cash from investing
+
+  debt_issuance:
+    aliases:
+      - debt issuance
+      - proceeds from debt
+      - proceeds from borrowings
+      - proceeds from issuance of debt
+      - issuance of debt
+      - borrowings
+      - new borrowings
+
+  debt_repayment:
+    aliases:
+      - debt repayment
+      - repayment of debt
+      - repayments of borrowings
+      - repayments of debt
+      - principal repayments
+      - debt paydown
+      - repayment of borrowings
+
+  equity_issuance:
+    aliases:
+      - equity issuance
+      - proceeds from issuance of common stock
+      - issuance of equity
+      - proceeds from stock issuance
+      - proceeds from exercise of stock options
+      - stock issuance
+
+  share_repurchases:
+    aliases:
+      - share repurchases
+      - stock repurchases
+      - buybacks
+      - share buybacks
+      - repurchase of common stock
+      - treasury stock purchased
+      - common stock repurchased
+
+  dividends_paid:
+    aliases:
+      - dividends paid
+      - dividend payments
+      - cash dividends paid
+      - dividends to shareholders
+      - distributions to shareholders
+      - dividend payout
+
+  other_financing:
+    aliases:
+      - other financing
+      - other financing activities
+      - other financial activities
+
+  cash_from_financing:
+    aliases:
+      - cash from financing
+      - cff
+      - financing cash flow
+      - net cash from financing activities
+      - net cash used in financing activities
+      - cash flow from financing
+      - total cash from financing
+
+  net_change_in_cash:
+    aliases:
+      - net change in cash
+      - change in cash
+      - net increase decrease in cash
+      - net increase in cash
+      - net decrease in cash
+      - increase decrease in cash
+      - total change in cash
+      - net change in cash and equivalents
+      - net increase decrease in cash and equivalents
+
+  beginning_cash:
+    aliases:
+      - beginning cash
+      - cash at beginning
+      - cash at beginning of period
+      - opening cash
+      - beginning cash balance
+      - cash beginning of year
+      - opening cash balance
+
+  ending_cash:
+    aliases:
+      - ending cash
+      - cash at end
+      - cash at end of period
+      - closing cash
+      - ending cash balance
+      - cash end of year
+      - closing cash balance
+
+  free_cash_flow:
+    aliases:
+      - free cash flow
+      - fcf
+      - levered free cash flow
+      - unlevered free cash flow
+      - ufcf
+      - lfcf
